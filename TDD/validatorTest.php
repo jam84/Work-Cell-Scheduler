@@ -1,11 +1,18 @@
 <?php
 // WebIS validatorTest Copyright 2014 by Timothy Middelkoop License Apache 2.0
 // Project version
-require_once 'TDD/validator.php';
+require_once 'Work-Cell-Scheduler/TDD/validator.php';
+include 'Work-Cell-Scheduler/Config/local.php';
 
-class MyTestCase extends WebIS\Validator {
+class ValidatorTestCase extends WebIS\Validator {
 
 	protected static $__CLASS__=__CLASS__;
+	
+	function testTidy() {
+		exec(self::$tidy." --version",$output,$return);
+		$this->assertEquals(0,$return);
+		$this->assertContains("HTML Tidy for HTML5",$output[0]);
+	}
 	
 	function testValidator() {
 		$this->assertValidHTML("TDD/static.html","Static html");
@@ -14,7 +21,7 @@ class MyTestCase extends WebIS\Validator {
 }
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
-	MyTEstCase::main();
+	ValidatorTestCase::main();
 }
 
 ?>
